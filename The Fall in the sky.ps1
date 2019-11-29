@@ -195,23 +195,22 @@ $ToolTip.SetToolTip($CloseButton, "Пойдем ка отсюда")
 # Добавляем верхнее меню в форму*
 $Menu = New-Object System.Windows.Forms.MainMenu
 $menuItem1= New-Object System.Windows.Forms.menuItem
-$menuItem1.Text= 'Меню 1'
-$Menu.MenuItems.Add($menuItem1)
 $menuItem2= New-Object System.Windows.Forms.menuItem
-$menuItem2.Text= 'Подменю'
-$menuItem1.MenuItems.Add($menuItem2)
 $menuItem3= New-Object System.Windows.Forms.menuItem
-$menuItem3.Text= 'Меню 3'
+
+$Menu.MenuItems.Add($menuItem1)
+$menuItem1.MenuItems.Add($menuItem2)
 $Menu.MenuItems.Add($menuItem3)
-$main_form.Menu= $Menu
+$menuItem1.Text= 'Меню 1'
+$menuItem2.Text= 'Подменю'
+$menuItem3.Text= 'Меню 3'
 
 # Добавляем контролы в форму и вызываем её запуск
+$MainSendWindow.Menu= $Menu
+
 $MainSendWindow.Controls.Add($SendButton)
 $MainSendWindow.Controls.Add($TestRunCheckBox)
 $MainSendWindow.Controls.Add($CloseButton)
-
-$MainSendWindow.Controls.Add($Menu)
-$MainSendWindow.Controls.Add($menuItem1)
 
 $MainSendWindow.Controls.Add($ServerTextBox)
 $MainSendWindow.Controls.Add($UserTextBox)
