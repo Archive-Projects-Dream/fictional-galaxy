@@ -2,8 +2,8 @@
 Add-Type -assembly System.Windows.Forms
 
 	# Все просто, массивы из списка серверов, списка пользоватей, и варианты подписи - чтобы использовать могла не только поддержка.
-	$Server        = @("Европа", "Азия", "Америка", "Другие")
-	$User          = @("*", "UserPC", "Administrator")
+	$Server        = @("*", "Локальная Сеть")
+	$User          = @("Сергей", "UserPC", "TeppaH")
 	$Message       = "Шаблон заголовка"
 	# По хорошему, надо бы сделать так, чтобы если умолчательное сообщение не менялось и шло нажатие на кнопку отправить, то выводилось бы предупреждение.
 	# Так же по аналогии с тем что есть, тут тоже можно повесить список со стандартными сообщениями
@@ -16,7 +16,9 @@ Add-Type -assembly System.Windows.Forms
 Function SendMessage {
         param ($Server, $User, $Message, $Sign)
        # Write-Host $Server, $User, $Message, $Sign
-        If ($TestRunCheckBox.Checked -eq 1 ) { Write-Host $TestRunCheckBox.Checked; $Server="localhost"; $User = "Console" }
+        If ($TestRunCheckBox.Checked -eq 1 ) { Write-Host $TestRunCheckBox.Checked; $User = "Console" }{
+            IF ($Server -eq "Локальная Сеть") {$Server = "localhost"}
+        }
         ForEach ($Item in $Server) {
             ForEach ($UserX in $User) {
                     $UserTrim = $UserX.Trim()
@@ -40,7 +42,6 @@ Function Confirm {
         $ConfirmWin.DataBindings.DefaultDataSourceUpdateMode = 0 
         $System_Drawing_Size.Height = 120
         $System_Drawing_Size.Width = 200 
-        $System_Drawing_Size.AutoSize = $true
         $ConfirmWin.MaximumSize = $System_Drawing_Size 
         $ConfirmWin.MinimumSize = $System_Drawing_Size
 
@@ -107,7 +108,6 @@ $MainSendWindow.ClientSize = $System_Drawing_Size
 $MainSendWindow.DataBindings.DefaultDataSourceUpdateMode = 0 
 $System_Drawing_Size.Height = 240 
 $System_Drawing_Size.Width = 480 
-$System_Drawing_Size.AutoSize = $true
 $MainSendWindow.MaximumSize = $System_Drawing_Size 
 $MainSendWindow.MinimumSize = $System_Drawing_Size
 # несколько плюшек и обещанных красивостей
@@ -124,11 +124,11 @@ $MainSendWindow.MinimumSize = $System_Drawing_Size
 
 # Подписи к текстовым полям
 $ServerTextBoxLabel.Location   = New-Object System.Drawing.Point(10,12)
-$ServerTextBoxLabel.Text       = "Список регионов"
+$ServerTextBoxLabel.Text       = "Список сетей"
 $ServerTextBoxLabel.Autosize     = 1
 
 $UserTextBoxLabel.Location     = New-Object System.Drawing.Point(10,42)
-$UserTextBoxLabel.Text         = "Список пользователей"
+$UserTextBoxLabel.Text         = "От кого сообщение"
 $UserTextBoxLabel.Autosize     = 1
 
 $MessageTextBoxLabel.Location  = New-Object System.Drawing.Point(10,73)
@@ -153,7 +153,7 @@ $ServerTextBox.Width           = 300
 $ServerTextBox.add_TextChanged({ $Server = $ServerTextBox.Text })
 # индекс порядка перехода по Tab
 $ServerTextBox.TabIndex        = 1
-$ToolTip.SetToolTip($ServerTextBox, "Укажите список серверов")
+$ToolTip.SetToolTip($ServerTextBox, "Куда мы будем отправлять? (* по умолчанию)")
 
 $UserTextBox.Location          = New-Object System.Drawing.Point(140,40)
 $UserTextBox.DataSource        = $User
@@ -162,7 +162,7 @@ $UserTextBox.Text              = $User[1]
 $UserTextBox.add_TextChanged({ $User = $UserTextBox.Text })
 $UserTextBox.Width             = 300
 $UserTextBox.TabIndex          = 2
-$ToolTip.SetToolTip($UserTextBox, "От какого имени отправлять будем? (* по умолчанию)")
+$ToolTip.SetToolTip($UserTextBox, "От чьего имени мы будем отправлять?")
 
 # Поле сообщения
 $MessageTextBox.Location       = New-Object System.Drawing.Point(140,70)
@@ -173,7 +173,7 @@ $MessageTextBox.add_click({ $MessageTextBox.SelectAll() })
 $MessageTextBox.add_TextChanged( { $Message = $MessageTextBox.Text })
 $MessageTextBox.Width          = 300
 $MessageTextBox.TabIndex       = 3
-$ToolTip.SetToolTip($MessageTextBox, "И шо мы таки хотим сказать?")
+$ToolTip.SetToolTip($MessageTextBox, "Оглавление сообщения")
 
 # Поле подписи - отправляемая переменная уже другая
 $SignTextBox.Location          = New-Object System.Drawing.Point(140,103)
@@ -184,7 +184,7 @@ $SignTextBox.Text              = $Sign[1]
 $SignTextBox.add_TextChanged({ $SignX = $SignTextBox.Text })
 $SignTextBox.Width             = 300
 $SignTextBox.TabIndex          = 4
-$ToolTip.SetToolTip($SignTextBox, "Страна должна знать своих героев")
+$ToolTip.SetToolTip($SignTextBox, "И что мы таки хотим сказать?")
 
 # Копка отправки.
 $SendButton.Location           = New-Object System.Drawing.Point(10,150)
@@ -193,7 +193,7 @@ $SendButton.Text               = "Отправить сообщение"
 $SendButton.add_click({ $User  = $UserTextBox.Text.Split(","); $Server = $ServerTextBox.Text.Split(","); $SignX = $SignTextBox.Text; $Message = $MessageTextBox.Text; SendMessage $Server $User $Message $SignX} )
 $SendButton.Autosize           = 1
 $SendButton.TabIndex           = 5
-$ToolTip.SetToolTip($SendButton, "Тыцни пимпочку")
+$ToolTip.SetToolTip($SendButton, "Отправить сообщение на указанный адресс")
 
 # Прописываем блокировочный чекбокс
 $TestRunCheckBox.Location      = New-Object System.Drawing.Point(200,150)
@@ -201,7 +201,7 @@ $TestRunCheckBox.Text          = "Тест"
 $TestRunCheckBox.Checked       = 1
 $TestRunCheckBox.AutoSize      = 1
 $TestRunCheckBox.TabIndex      = 6
-$ToolTip.SetToolTip($TestRunCheckBox, "Сними меня, а то работать не будет")
+$ToolTip.SetToolTip($TestRunCheckBox, "Сними меня, а то работать не будет, наверное...")
 
 # Кнопочка выхода, по событию вызывает метод закрытия
 $CloseButton.Location          = New-Object System.Drawing.Point(315,150)
@@ -222,14 +222,17 @@ $menuItem3_OnClick=
 #TODO: Open Perfomance Monitoring Tool     
 Invoke-Item "$ENV:windir\System32\perfmon.exe" 
 } 
-
+$menuItem4_OnClick= 
+{ 
+. (Join-Path $PSScriptRoot 'Fantastic_Story.ps1')
+} 
 $Menu.MenuItems.Add($menuItem1)
 $menuItem1.MenuItems.Add($menuItem2)
 $menuItem2.add_Click($menuItem2_OnClick)
 $menuItem1.MenuItems.Add($menuItem3)
 $menuItem3.add_Click($menuItem3_OnClick)
 $Menu.MenuItems.Add($menuItem4)
-$menuItem4.add_Click()
+$menuItem4.add_Click($menuItem4_OnClick)
 $menuItem1.Text= 'Файл'
 $menuItem2.Text= 'Версия Windows'
 $menuItem3.Text= 'Системный монитор'
