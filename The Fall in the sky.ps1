@@ -15,12 +15,12 @@ Add-Type -assembly System.Windows.Forms
 	# Функция отправки сообщения. Принимаем параметры, проверяем, если чекбокс включен (а он включен по умолчанию), устанавливаем параметры отправки только на консоль локалхоста, иначе проходим по списку серверов, внутри каждого сервера инициируем цикл по списку пользователей с предварительно отрезанными пробелами до и после текста(помните формат: "сервер1, сервер2, сервер3" для красивой читаемости текста), вызываем сам msg для отправки сообщения и после чего вызываем диалогов окно с подтверждением отправки и закрытием программы.
 Function SendMessage {
         param ($Server, $User, $Message, $Sign)
-       # Write-Host $Server, $User, $Message, $Sign
-        If ($TestRunCheckBox.Checked -eq 1 ) { Write-Host $TestRunCheckBox.Checked; $User = "Console" }{
-            IF ($Server -eq "Локальная Сеть") {$Server = "localhost"}
-        }
-        ForEach ($Item in $Server) {
-            ForEach ($UserX in $User) {
+        # Write-Host $Server, $User, $Message, $Sign
+        IF ($Server -eq "Локальная Сеть"){
+           $Server = "localhost"
+            If ($TestRunCheckBox.Checked -eq 1 ) { Write-Host $TestRunCheckBox.Checked; $User = "Console" }
+            ForEach ($Item in $Server) {
+                ForEach ($UserX in $User) {
                     $UserTrim = $UserX.Trim()
                     $ServerTrim = $Item.Trim()
                     $MsgTrim = $Message.Trim()
@@ -29,6 +29,7 @@ Function SendMessage {
                     # Write-Host "User: $UserTrim; Server: $ServerTrim; Message: $MsgTrim; Signature: $SignTrim"
                     c:\windows\system32\msg.exe $UserTrim /Server:$ServerTrim $MsgTrim $SignTrim
                 }
+            }
         }
      Confirm
     }
@@ -41,7 +42,7 @@ Function Confirm {
         $ConfirmWin.ClientSize = $System_Drawing_Size 
         $ConfirmWin.DataBindings.DefaultDataSourceUpdateMode = 0 
         $System_Drawing_Size.Height = 120
-        $System_Drawing_Size.Width = 200 
+        $System_Drawing_Size.Width = 210 
         $ConfirmWin.MaximumSize = $System_Drawing_Size 
         $ConfirmWin.MinimumSize = $System_Drawing_Size
 
@@ -52,7 +53,8 @@ Function Confirm {
         $ConfirmWinOKButton.Location        = New-Object System.Drawing.Point(50,50)
 
         $ConfirmLabel = New-Object System.Windows.Forms.Label
-        $ConfirmLabel.Text = "Сообщение было отправлено"
+        IF ($Server -ne "localhost"){$ConfirmLabel.Text = "Сообщение не удалось отправить"}
+        Else {$ConfirmLabel.Text = "Сообщение было отправлено"}
         $ConfirmLabel.AutoSize = 1
         $ConfirmLabel.Location  = New-Object System.Drawing.Point(10,10)
 
@@ -104,12 +106,11 @@ Function Confirm {
 # Главная форма
 $MainSendWindow.StartPosition  = "CenterScreen"
 $MainSendWindow.Text           = "Отправка сообщения пользователям"
-$MainSendWindow.ClientSize = $System_Drawing_Size 
 $MainSendWindow.DataBindings.DefaultDataSourceUpdateMode = 0 
-$System_Drawing_Size.Height = 240 
-$System_Drawing_Size.Width = 480 
-$MainSendWindow.MaximumSize = $System_Drawing_Size 
-$MainSendWindow.MinimumSize = $System_Drawing_Size
+$MainSendWindow.Height = 240 
+$MainSendWindow.Width = 480 
+$MainSendWindow.AutoSize = 1
+$MainSendWindow.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedDialog
 # несколько плюшек и обещанных красивостей
 #$Win.ControlBox           = 0 # отключить кнопки свернуть, минимизацию и закрытие.
 # $Win.ShowIcon             = 0
@@ -238,6 +239,7 @@ $menuItem2.Text= 'Версия Windows'
 $menuItem3.Text= 'Системный монитор'
 $menuItem4.Text= 'Об Авторе'
 
+$MainSendWindow.Icon = New-Object System.Drawing.Icon("D:\C\resource\code.ico")
 # Добавляем контролы в форму и вызываем её запуск
 $MainSendWindow.Menu= $Menu
 
