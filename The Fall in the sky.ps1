@@ -57,8 +57,8 @@ Function Confirm {
     }
 
 # Главное окно, по хорошему тоже стоило бы оформить в виде функции
-     $MainSendWindow                = New-Object System.Windows.Forms.Form
-     $ToolTip = New-Object System.Windows.Forms.ToolTip
+     $MainSendWindow            = New-Object System.Windows.Forms.Form
+     $ToolTip                   = New-Object System.Windows.Forms.ToolTip
 
      $ToolTip.BackColor = [System.Drawing.Color]::LightGoldenrodYellow
      $ToolTip.IsBalloon = $true
@@ -67,21 +67,27 @@ Function Confirm {
 
      # Инициализация контролов формы
      # Кнопки и чекбокс
-     $SendButton                   = New-Object System.Windows.Forms.Button
-     $CloseButton                   = New-Object System.Windows.Forms.Button
+     $SendButton                = New-Object System.Windows.Forms.Button
+     $CloseButton               = New-Object System.Windows.Forms.Button
      $TestRunCheckBox           = New-Object System.Windows.Forms.CheckBox
 
      # Текстовые поля и списки
-     $ServerTextBox                = New-Object System.Windows.Forms.ComboBox
-     $UserTextBox                   = New-Object System.Windows.Forms.ComboBox
-     $MessageTextBox             = New-Object System.Windows.Forms.TextBox
-     $SignTextBox                   = New-Object System.Windows.Forms.ComboBox
+     $ServerTextBox             = New-Object System.Windows.Forms.ComboBox
+     $UserTextBox               = New-Object System.Windows.Forms.ComboBox
+     $MessageTextBox            = New-Object System.Windows.Forms.TextBox
+     $SignTextBox               = New-Object System.Windows.Forms.ComboBox
 
      # Подписи
-     $ServerTextBoxLabel           = New-Object System.Windows.Forms.Label
-     $UserTextBoxLabel              = New-Object System.Windows.Forms.Label
-     $MessageTextBoxLabel        = New-Object System.Windows.Forms.Label
-     $SignTextBoxLabel              = New-Object System.Windows.Forms.Label
+     $ServerTextBoxLabel        = New-Object System.Windows.Forms.Label
+     $UserTextBoxLabel          = New-Object System.Windows.Forms.Label
+     $MessageTextBoxLabel       = New-Object System.Windows.Forms.Label
+     $SignTextBoxLabel          = New-Object System.Windows.Forms.Label
+
+     # Добавляем верхнее меню в формы
+     $Menu                      = New-Object System.Windows.Forms.MainMenu
+     $menuItem1                 = New-Object System.Windows.Forms.menuItem
+     $menuItem2                 = New-Object System.Windows.Forms.menuItem
+     $menuItem3                 = New-Object System.Windows.Forms.menuItem
 
 # Описываем свойства (комментариями я еще добавлю несколько нагугленных
 # интересных свойств для общего развития и чтобы далеко не бегать ;))
@@ -167,7 +173,7 @@ $SignTextBox.Width             = 300
 $SignTextBox.TabIndex          = 4
 $ToolTip.SetToolTip($SignTextBox, "Страна должна знать своих героев")
 
-# Нопка отправки.
+# Кнопка отправки.
 $SendButton.Location           = New-Object System.Drawing.Point(10,150)
 $SendButton.Text               = "Отправить сообщение"
 # Выполняем разделения строк на массивы с разделителем запятая, вызываем функцию отправки сообщения
@@ -192,17 +198,19 @@ $CloseButton.Autosize          = 1
 $CloseButton.TabIndex          = 7
 $ToolTip.SetToolTip($CloseButton, "Пойдем ка отсюда")
 
-# Добавляем верхнее меню в форму*
-$Menu = New-Object System.Windows.Forms.MainMenu
-$menuItem1= New-Object System.Windows.Forms.menuItem
-$menuItem2= New-Object System.Windows.Forms.menuItem
-$menuItem3= New-Object System.Windows.Forms.menuItem
+#Provide Custom Code for events specified in PrimalForms. 
+$menuItem2_OnClick= 
+{ 
+#TODO: Open Perfomance Monitoring Tool 
+Invoke-Item "$ENV:windir\System32\perfmon.exe" 
+} 
 
 $Menu.MenuItems.Add($menuItem1)
 $menuItem1.MenuItems.Add($menuItem2)
 $Menu.MenuItems.Add($menuItem3)
 $menuItem1.Text= 'Меню 1'
 $menuItem2.Text= 'Подменю'
+$menuItem2.add_Click($menuItem2_OnClick)
 $menuItem3.Text= 'Меню 3'
 
 # Добавляем контролы в форму и вызываем её запуск
