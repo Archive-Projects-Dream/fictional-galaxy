@@ -36,9 +36,13 @@ Function Confirm {
         $ConfirmWin = New-Object System.Windows.Forms.Form
         $ConfirmWin.StartPosition  = "CenterScreen"
         $ConfirmWin.Text = "Подтверждение отправки"
-        $ConfirmWin.Width = 200
-        $ConfirmWin.Height = 120
-        $ConfirmWin.ControlBox = 0
+        $ConfirmWin.ClientSize = $System_Drawing_Size 
+        $ConfirmWin.DataBindings.DefaultDataSourceUpdateMode = 0 
+        $System_Drawing_Size.Height = 120
+        $System_Drawing_Size.Width = 200 
+        $System_Drawing_Size.AutoSize = $true
+        $ConfirmWin.MaximumSize = $System_Drawing_Size 
+        $ConfirmWin.MinimumSize = $System_Drawing_Size
 
         $ConfirmWinOKButton = New-Object System.Windows.Forms.Button
         $ConfirmWinOKButton.add_click({ $MainSendWindow.Close(); $ConfirmWin.Close() })
@@ -59,7 +63,10 @@ Function Confirm {
 # Главное окно, по хорошему тоже стоило бы оформить в виде функции
      $MainSendWindow            = New-Object System.Windows.Forms.Form
      $ToolTip                   = New-Object System.Windows.Forms.ToolTip
+
+     # Размер контролеров и форм
      $System_Drawing_Size       = New-Object System.Drawing.Size 
+
      $ToolTip.BackColor = [System.Drawing.Color]::LightGoldenrodYellow
      $ToolTip.IsBalloon = $true
      # $ToolTip.InitialDelay = 500
@@ -88,6 +95,7 @@ Function Confirm {
      $menuItem1                 = New-Object System.Windows.Forms.menuItem
      $menuItem2                 = New-Object System.Windows.Forms.menuItem
      $menuItem3                 = New-Object System.Windows.Forms.menuItem
+     $menuItem4                 = New-Object System.Windows.Forms.menuItem
 
 # Описываем свойства (комментариями я еще добавлю несколько нагугленных
 # интересных свойств для общего развития и чтобы далеко не бегать ;))
@@ -97,14 +105,11 @@ $MainSendWindow.StartPosition  = "CenterScreen"
 $MainSendWindow.Text           = "Отправка сообщения пользователям"
 $MainSendWindow.ClientSize = $System_Drawing_Size 
 $MainSendWindow.DataBindings.DefaultDataSourceUpdateMode = 0 
-$System_Drawing_Size= New-Object System.Drawing.Size 
 $System_Drawing_Size.Height = 240 
-$System_Drawing_Size.Width = 470 
+$System_Drawing_Size.Width = 480 
+$System_Drawing_Size.AutoSize = $true
 $MainSendWindow.MaximumSize = $System_Drawing_Size 
-$System_Drawing_Size= New-Object System.Drawing.Size 
-$System_Drawing_Size.Height = 240 
-$System_Drawing_Size.Width = 470 
-$MainSendWindow.MinimumSize = $System_Drawing_Size 
+$MainSendWindow.MinimumSize = $System_Drawing_Size
 # несколько плюшек и обещанных красивостей
 #$Win.ControlBox           = 0 # отключить кнопки свернуть, минимизацию и закрытие.
 # $Win.ShowIcon             = 0
@@ -209,17 +214,26 @@ $ToolTip.SetToolTip($CloseButton, "Пойдем ка отсюда")
 #Provide Custom Code for events specified in PrimalForms. 
 $menuItem2_OnClick= 
 { 
-#TODO: Open Perfomance Monitoring Tool 
+#TODO: To view Windows version (About Windows) 
+Invoke-Item "$ENV:Windir\System32\Winver.exe"
+} 
+$menuItem3_OnClick= 
+{ 
+#TODO: Open Perfomance Monitoring Tool     
 Invoke-Item "$ENV:windir\System32\perfmon.exe" 
 } 
 
 $Menu.MenuItems.Add($menuItem1)
 $menuItem1.MenuItems.Add($menuItem2)
-$Menu.MenuItems.Add($menuItem3)
-$menuItem1.Text= 'Меню 1'
-$menuItem2.Text= 'Подменю'
 $menuItem2.add_Click($menuItem2_OnClick)
-$menuItem3.Text= 'Меню 3'
+$menuItem1.MenuItems.Add($menuItem3)
+$menuItem3.add_Click($menuItem3_OnClick)
+$Menu.MenuItems.Add($menuItem4)
+$menuItem4.add_Click()
+$menuItem1.Text= 'Файл'
+$menuItem2.Text= 'Версия Windows'
+$menuItem3.Text= 'Системный монитор'
+$menuItem4.Text= 'Об Авторе'
 
 # Добавляем контролы в форму и вызываем её запуск
 $MainSendWindow.Menu= $Menu
