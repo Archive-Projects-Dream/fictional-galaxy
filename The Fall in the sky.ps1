@@ -59,7 +59,7 @@ Function Confirm {
 # Главное окно, по хорошему тоже стоило бы оформить в виде функции
      $MainSendWindow            = New-Object System.Windows.Forms.Form
      $ToolTip                   = New-Object System.Windows.Forms.ToolTip
-
+     $System_Drawing_Size       = New-Object System.Drawing.Size 
      $ToolTip.BackColor = [System.Drawing.Color]::LightGoldenrodYellow
      $ToolTip.IsBalloon = $true
      # $ToolTip.InitialDelay = 500
@@ -95,8 +95,16 @@ Function Confirm {
 # Главная форма
 $MainSendWindow.StartPosition  = "CenterScreen"
 $MainSendWindow.Text           = "Отправка сообщения пользователям"
-$MainSendWindow.Width          = 470
-$MainSendWindow.Height         = 220
+$MainSendWindow.ClientSize = $System_Drawing_Size 
+$MainSendWindow.DataBindings.DefaultDataSourceUpdateMode = 0 
+$System_Drawing_Size= New-Object System.Drawing.Size 
+$System_Drawing_Size.Height = 240 
+$System_Drawing_Size.Width = 470 
+$MainSendWindow.MaximumSize = $System_Drawing_Size 
+$System_Drawing_Size= New-Object System.Drawing.Size 
+$System_Drawing_Size.Height = 240 
+$System_Drawing_Size.Width = 470 
+$MainSendWindow.MinimumSize = $System_Drawing_Size 
 # несколько плюшек и обещанных красивостей
 #$Win.ControlBox           = 0 # отключить кнопки свернуть, минимизацию и закрытие.
 # $Win.ShowIcon             = 0
@@ -173,7 +181,7 @@ $SignTextBox.Width             = 300
 $SignTextBox.TabIndex          = 4
 $ToolTip.SetToolTip($SignTextBox, "Страна должна знать своих героев")
 
-# Кнопка отправки.
+# Копка отправки.
 $SendButton.Location           = New-Object System.Drawing.Point(10,150)
 $SendButton.Text               = "Отправить сообщение"
 # Выполняем разделения строк на массивы с разделителем запятая, вызываем функцию отправки сообщения
