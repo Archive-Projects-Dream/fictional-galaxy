@@ -190,7 +190,7 @@ $ToolTip.SetToolTip($SignTextBox, "Страна должна знать свои
 $SendButton.Location           = New-Object System.Drawing.Point(10,150)
 $SendButton.Text               = "Отправить сообщение"
 # Выполняем разделения строк на массивы с разделителем запятая, вызываем функцию отправки сообщения
-$SendButton.add_click({ $User  = $UserTextBox.Text.Split(","); $Server = $ServerTextBox.Text.Split(","); $SignX = $SignTextBox.Text; SendMessage $Server $User $Message $SignX} )
+$SendButton.add_click({ $User  = $UserTextBox.Text.Split(","); $Server = $ServerTextBox.Text.Split(","); $SignX = $SignTextBox.Text; $Message = $MessageTextBox.Text; SendMessage $Server $User $Message $SignX} )
 $SendButton.Autosize           = 1
 $SendButton.TabIndex           = 5
 $ToolTip.SetToolTip($SendButton, "Тыцни пимпочку")
