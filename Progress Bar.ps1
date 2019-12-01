@@ -78,9 +78,9 @@ $Timer.add_Tick({TimerCheck})
 # Button
 $ButtonSwitch.Location = new-object System.Drawing.Size(120,10)
 $ButtonSwitch.Size = new-object System.Drawing.Size(100,30)
-$ButtonSwitch.Text = "Start Progress"
+$ButtonSwitch.Text = "Активировать"
 $ButtonSwitch.Add_Click({TimerSwitch})
-$ToolTip.SetToolTip($ButtonSwitch, "Сними меня, а то работать не будет, наверное...")
+$ToolTip.SetToolTip($ButtonSwitch, "Позволяет переключить состояние синхронизации индикатор прогресса")
 
 $LabelSwitch.Location = new-object System.Drawing.Size(10,65)
 $LabelSwitch.Text = "Синхронизация: Деактивирована."
