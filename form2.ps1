@@ -1,45 +1,58 @@
 ﻿Add-Type -AssemblyName System.Windows.Forms
-Add-Type -AssemblyName System.Drawing
-
-$form = New-Object System.Windows.Forms.Form
-$form.Text = 'Data Entry Form'
-$form.Size = New-Object System.Drawing.Size(300,200)
-$form.StartPosition = 'CenterScreen'
-
-$OKButton = New-Object System.Windows.Forms.Button
-$OKButton.Location = New-Object System.Drawing.Point(75,120)
-$OKButton.Size = New-Object System.Drawing.Size(75,23)
-$OKButton.Text = 'OK'
-$OKButton.DialogResult = [System.Windows.Forms.DialogResult]::OK
-$form.AcceptButton = $OKButton
-$form.Controls.Add($OKButton)
-
-$CancelButton = New-Object System.Windows.Forms.Button
-$CancelButton.Location = New-Object System.Drawing.Point(150,120)
-$CancelButton.Size = New-Object System.Drawing.Size(75,23)
-$CancelButton.Text = 'Cancel'
-$CancelButton.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
-$form.CancelButton = $CancelButton
-$form.Controls.Add($CancelButton)
-
-$label = New-Object System.Windows.Forms.Label
-$label.Location = New-Object System.Drawing.Point(10,20)
-$label.Size = New-Object System.Drawing.Size(280,20)
-$label.Text = 'Please enter the information in the space below:'
-$form.Controls.Add($label)
-
-$textBox = New-Object System.Windows.Forms.TextBox
-$textBox.Location = New-Object System.Drawing.Point(10,40)
-$textBox.Size = New-Object System.Drawing.Size(260,20)
-$form.Controls.Add($textBox)
-
-$form.Topmost = $true
-
-$form.Add_Shown({$textBox.Select()})
-$result = $form.ShowDialog()
-
-if ($result -eq [System.Windows.Forms.DialogResult]::OK)
+Function StartProgressBar
 {
-    $x = $textBox.Text
-    $x
+	if($i -le 5){
+	    $pbrTest.Value = $i
+	    $script:i += 1
+	}
+	else {
+		$timer.enabled = $false
+	}
+	
 }
+
+$Form = New-Object System.Windows.Forms.Form
+$Form.width = 400
+$Form.height = 600
+$Form.Text = "Add Resource"
+
+# Init ProgressBar
+$pbrTest = New-Object System.Windows.Forms.ProgressBar
+$pbrTest.Maximum = 100
+$pbrTest.Minimum = 0
+$pbrTest.Location = new-object System.Drawing.Size(10,10)
+$pbrTest.size = new-object System.Drawing.Size(100,50)
+$i = 0
+$Form.Controls.Add($pbrTest)
+
+# Button
+$btnConfirm = new-object System.Windows.Forms.Button
+$btnConfirm.Location = new-object System.Drawing.Size(120,10)
+$btnConfirm.Size = new-object System.Drawing.Size(100,30)
+$btnConfirm.Text = "Start Progress"
+$Form.Controls.Add($btnConfirm)
+
+$timer = New-Object System.Windows.Forms.Timer 
+$timer.Interval = 1000
+
+$timer.add_Tick({
+StartProgressBar
+})
+
+$timer.Enabled = $true
+$timer.Start()
+
+# Button Click Event to Run ProgressBar
+$btnConfirm.Add_Click({
+    While ($i -le 100) {
+        $pbrTest.Value = $i
+        Start-Sleep -m 1
+        "VALLUE EQ"
+        $i
+        $i += 1
+    }
+})
+
+# Show Form
+$Form.Add_Shown({$Form.Activate()})
+$Form.ShowDialog()
