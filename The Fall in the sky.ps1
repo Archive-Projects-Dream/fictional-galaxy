@@ -189,7 +189,7 @@ $SignTextBox.Width             = 300
 $SignTextBox.TabIndex          = 4
 $ToolTip.SetToolTip($SignTextBox, "И что мы таки хотим сказать?")
 
-# Копка отправки.
+# Кнопка отправки.
 $SendButton.Location           = New-Object System.Drawing.Point(10,150)
 $SendButton.Text               = "Отправить сообщение"
 # Выполняем разделения строк на массивы с разделителем запятая, вызываем функцию отправки сообщения

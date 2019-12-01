@@ -8,21 +8,32 @@ Function TimerCheck {
 
 # Функция переключателя таймера
 Function TimerSwitch {
-    if($CheckBoxTimer.Checked = 1) {
-        $CheckBoxTimer.Checked = 0
-        $Timer.Enabled = $false
-        $ProgressBar.Value = 0
+    if ($Timer.Enabled -eq $false ) {
+        $LabelSwitch.Text = "Синхронизация: Активна!"
+        $LabelSwitch.ForeColor = 'Green'
+        $Timer.Enabled = $true
+        $timer.Start()
     }
     else {
-        $CheckBoxTimer.Checked = 1
-        $Timer.Enabled = $true
+        $LabelSwitch.Text = "Синхронизация: Отключена!"
+        $LabelSwitch.ForeColor = 'Red'
+        $Timer.Enabled = $false 
+        $timer.Stop()
+        $ProgressBar.Value = 0
     }
 }
 
 # Главное окно, по хорошему тоже стоило бы оформить в виде функции
 $SecondMain                 = New-Object System.Windows.Forms.Form
+$ToolTip                    = New-Object System.Windows.Forms.ToolTip
+
+# Индикатор прогресса, и прокрутки
 $ProgressBar                = New-Object System.Windows.Forms.ProgressBar
 $HScrollBar                 = New-Object System.Windows.Forms.HScrollBar
+
+# Кнопка и подпись
+$ButtonSwitch               = New-Object System.Windows.Forms.Button
+$LabelSwitch                = New-Object System.Windows.Forms.Label
 
 # Окошко с подсказками
 $ToolTip.BackColor = [System.Drawing.Color]::LightGoldenrodYellow
@@ -30,7 +41,6 @@ $ToolTip.IsBalloon = $true
 
 # Инициализация контролов формы
 # Чекбокс и таймер
-$CheckBoxTimer              = New-Object System.Windows.Forms.CheckBox
 $Timer                      = New-Object System.Windows.Forms.Timer 
 
 # Добавляем верхнее меню в формы (Оставил тут на случай если захочу добавить верхнюю панель)
@@ -64,20 +74,22 @@ $HScrollBar.Name = 'HScrollBar'
 # Прописываем таймер
 $Timer.Interval = 70
 $Timer.add_Tick({TimerCheck})
-$Timer.Enabled = $false
-$Timer.Add_click({TimerSwitch})
-$Timer.Start()
 
-# Прописываем блокировочный чекбокс
-$CheckBoxTimer.Location      = New-Object System.Drawing.Point(120,10)
-$CheckBoxTimer.Text          = "Включить индикатор прогресса"
-$CheckBoxTimer.AutoSize      = 1
-$CheckBoxTimer.TabIndex      = 6
-$ToolTip.SetToolTip($CheckBoxTimer, "Сними меня, а то работать не будет, наверное...")
+# Button
+$ButtonSwitch.Location = new-object System.Drawing.Size(120,10)
+$ButtonSwitch.Size = new-object System.Drawing.Size(100,30)
+$ButtonSwitch.Text = "Start Progress"
+$ButtonSwitch.Add_Click({TimerSwitch})
+$ToolTip.SetToolTip($ButtonSwitch, "Сними меня, а то работать не будет, наверное...")
+
+$LabelSwitch.Location = new-object System.Drawing.Size(10,65)
+$LabelSwitch.Text = "Синхронизация: Деактивирована."
+$LabelSwitch.Autosize = 1
 
 # Добавляем контролы в форму и вызываем её запуск
 $SecondMain.Controls.Add($HScrollBar)
 $SecondMain.Controls.Add($ProgressBar)
-$SecondMain.Controls.Add($CheckBoxTimer)
+$SecondMain.Controls.Add($ButtonSwitch)
+$SecondMain.Controls.Add($LabelSwitch)
 
 $SecondMain.ShowDialog()| Out-Null
