@@ -111,6 +111,7 @@ $MainSendWindow.DataBindings.DefaultDataSourceUpdateMode = 0
 $MainSendWindow.Height = 240 
 $MainSendWindow.Width = 480 
 $MainSendWindow.AutoSize = 1
+$MainSendWindow.Icon = New-Object System.Drawing.Icon("D:\C\resource\code.ico")
 $MainSendWindow.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedDialog
 # несколько плюшек и обещанных красивостей
 #$Win.ControlBox           = 0 # отключить кнопки свернуть, минимизацию и закрытие.
@@ -226,7 +227,7 @@ Invoke-Item "$ENV:windir\System32\perfmon.exe"
 } 
 $menuItem4_OnClick= 
 { 
-. (Join-Path $PSScriptRoot 'Fantastic_Story.ps1')
+. (Join-Path $PSScriptRoot 'Progress Bar.ps1')
 } 
 $Menu.MenuItems.Add($menuItem1)
 $menuItem1.MenuItems.Add($menuItem2)
@@ -240,7 +241,6 @@ $menuItem2.Text= 'Версия Windows'
 $menuItem3.Text= 'Системный монитор'
 $menuItem4.Text= 'Об Авторе'
 
-$MainSendWindow.Icon = New-Object System.Drawing.Icon("D:\C\resource\code.ico")
 # Добавляем контролы в форму и вызываем её запуск
 $MainSendWindow.Menu= $Menu
 
