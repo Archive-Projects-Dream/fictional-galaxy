@@ -26,6 +26,9 @@ Function TimerSwitch {
 # Главное окно, по хорошему тоже стоило бы оформить в виде функции
     $SecondMain                 = New-Object System.Windows.Forms.Form
     $ToolTip                    = New-Object System.Windows.Forms.ToolTip
+    
+    # Размер контролеров и форм, что бы избежать растягивания формы
+    $System_Drawing_Size       = New-Object System.Drawing.Size 
 
      # Вскплывающее окно с подсказками
      $ToolTip.BackColor = [System.Drawing.Color]::LightGoldenrodYellow
@@ -50,10 +53,13 @@ Function TimerSwitch {
 # Главная форма
 $SecondMain.Text = 'ProgressBar'
 $SecondMain.DataBindings.DefaultDataSourceUpdateMode = 0 
-$SecondMain.Height = 100 
-$SecondMain.Width = 260 
-$SecondMain.AutoSize = 1
-$SecondMain.Icon = New-Object System.Drawing.Icon("D:\C\resource\dual.ico")
+$SecondMain.ClientSize = $System_Drawing_Size 
+$SecondMain.DataBindings.DefaultDataSourceUpdateMode = 0 
+$System_Drawing_Size.Height = 120
+$System_Drawing_Size.Width = 260
+$SecondMain.MaximumSize = $System_Drawing_Size 
+$SecondMain.MinimumSize = $System_Drawing_Size
+$SecondMain.Icon = New-Object System.Drawing.Icon("D:\The interesting\resource\dual.ico")
 $SecondMain.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedDialog
 
 # Прописываем индикатор прогресса

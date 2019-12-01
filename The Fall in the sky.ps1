@@ -45,6 +45,7 @@ Function Confirm {
         $System_Drawing_Size.Width = 210 
         $ConfirmWin.MaximumSize = $System_Drawing_Size 
         $ConfirmWin.MinimumSize = $System_Drawing_Size
+        $ConfirmWin.Icon = New-Object System.Drawing.Icon("D:\The interesting\resource\light.ico")
 
         $ConfirmWinOKButton = New-Object System.Windows.Forms.Button
         $ConfirmWinOKButton.add_click({ $MainSendWindow.Close(); $ConfirmWin.Close() })
@@ -68,7 +69,7 @@ Function Confirm {
      $MainSendWindow            = New-Object System.Windows.Forms.Form
      $ToolTip                   = New-Object System.Windows.Forms.ToolTip
 
-     # Размер контролеров и форм
+     # Размер контролеров и форм, что бы избежать растягивания формы
      $System_Drawing_Size       = New-Object System.Drawing.Size 
      
      # Вскплывающее окно с подсказками
@@ -101,6 +102,7 @@ Function Confirm {
      $menuItem2                 = New-Object System.Windows.Forms.menuItem
      $menuItem3                 = New-Object System.Windows.Forms.menuItem
      $menuItem4                 = New-Object System.Windows.Forms.menuItem
+     $menuItem5                 = New-Object System.Windows.Forms.menuItem
 
 # Описываем свойства (комментариями я еще добавлю несколько нагугленных
 # интересных свойств для общего развития и чтобы далеко не бегать ;))
@@ -109,10 +111,14 @@ Function Confirm {
 $MainSendWindow.StartPosition  = "CenterScreen"
 $MainSendWindow.Text           = "Отправка сообщения пользователям"
 $MainSendWindow.DataBindings.DefaultDataSourceUpdateMode = 0 
-$MainSendWindow.Height = 240 
-$MainSendWindow.Width = 480 
+$MainSendWindow.ClientSize = $System_Drawing_Size 
+$MainSendWindow.DataBindings.DefaultDataSourceUpdateMode = 0 
+$System_Drawing_Size.Height = 240
+$System_Drawing_Size.Width = 480 
+$MainSendWindow.MaximumSize = $System_Drawing_Size 
+$MainSendWindow.MinimumSize = $System_Drawing_Size
 $MainSendWindow.AutoSize = 1
-$MainSendWindow.Icon = New-Object System.Drawing.Icon("D:\C\resource\code.ico")
+$MainSendWindow.Icon = New-Object System.Drawing.Icon("D:\The interesting\resource\code.ico")
 $MainSendWindow.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedDialog
 # несколько плюшек и обещанных красивостей
 #$Win.ControlBox           = 0 # отключить кнопки свернуть, минимизацию и закрытие.
@@ -230,6 +236,11 @@ $menuItem4_OnClick=
 { 
 . (Join-Path $PSScriptRoot 'Progress Bar.ps1')
 } 
+$menuItem5_OnClick= 
+{ 
+. (Join-Path $PSScriptRoot 'About to me.ps1')
+} 
+
 $Menu.MenuItems.Add($menuItem1)
 $menuItem1.MenuItems.Add($menuItem2)
 $menuItem2.add_Click($menuItem2_OnClick)
@@ -237,10 +248,13 @@ $menuItem1.MenuItems.Add($menuItem3)
 $menuItem3.add_Click($menuItem3_OnClick)
 $Menu.MenuItems.Add($menuItem4)
 $menuItem4.add_Click($menuItem4_OnClick)
+$Menu.MenuItems.Add($menuItem5)
+$menuItem5.add_Click($menuItem5_OnClick)
 $menuItem1.Text= 'Файл'
 $menuItem2.Text= 'Версия Windows'
 $menuItem3.Text= 'Системный монитор'
-$menuItem4.Text= 'Об Авторе'
+$menuItem4.Text= 'Индикатор Прогресса'
+$menuItem5.Text= 'Об Авторе'
 
 # Добавляем контролы в форму и вызываем её запуск
 $MainSendWindow.Menu= $Menu
