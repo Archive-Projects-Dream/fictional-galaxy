@@ -238,7 +238,7 @@ $menuItem4_OnClick=
 } 
 $menuItem5_OnClick= 
 { 
-. (Join-Path $PSScriptRoot 'About to me.ps1')
+. (Join-Path $PSScriptRoot 'About.ps1')
 } 
 
 $Menu.MenuItems.Add($menuItem1)
