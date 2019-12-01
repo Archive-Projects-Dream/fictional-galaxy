@@ -24,24 +24,23 @@ Function TimerSwitch {
 }
 
 # Главное окно, по хорошему тоже стоило бы оформить в виде функции
-$SecondMain                 = New-Object System.Windows.Forms.Form
-$ToolTip                    = New-Object System.Windows.Forms.ToolTip
+    $SecondMain                 = New-Object System.Windows.Forms.Form
+    $ToolTip                    = New-Object System.Windows.Forms.ToolTip
 
-# Индикатор прогресса, и прокрутки
-$ProgressBar                = New-Object System.Windows.Forms.ProgressBar
-$HScrollBar                 = New-Object System.Windows.Forms.HScrollBar
+     # Вскплывающее окно с подсказками
+     $ToolTip.BackColor = [System.Drawing.Color]::LightGoldenrodYellow
+     $ToolTip.IsBalloon = $true
 
-# Кнопка и подпись
-$ButtonSwitch               = New-Object System.Windows.Forms.Button
-$LabelSwitch                = New-Object System.Windows.Forms.Label
+     # Инициализация контролеров форм
+     # Индикатор прогресса, и прокрутки
+    $ProgressBar                = New-Object System.Windows.Forms.ProgressBar
+    $HScrollBar                 = New-Object System.Windows.Forms.HScrollBar
 
-# Окошко с подсказками
-$ToolTip.BackColor = [System.Drawing.Color]::LightGoldenrodYellow
-$ToolTip.IsBalloon = $true
-
-# Инициализация контролов формы
-# Чекбокс и таймер
-$Timer                      = New-Object System.Windows.Forms.Timer 
+     # Кнопка и подпись
+    $ButtonSwitch               = New-Object System.Windows.Forms.Button
+    $LabelSwitch                = New-Object System.Windows.Forms.Label
+     # Таймер
+    $Timer                      = New-Object System.Windows.Forms.Timer 
 
 # Добавляем верхнее меню в формы (Оставил тут на случай если захочу добавить верхнюю панель)
 # $Menu                       = New-Object System.Windows.Forms.MainMenu

@@ -70,7 +70,8 @@ Function Confirm {
 
      # Размер контролеров и форм
      $System_Drawing_Size       = New-Object System.Drawing.Size 
-
+     
+     # Вскплывающее окно с подсказками
      $ToolTip.BackColor = [System.Drawing.Color]::LightGoldenrodYellow
      $ToolTip.IsBalloon = $true
      # $ToolTip.InitialDelay = 500
