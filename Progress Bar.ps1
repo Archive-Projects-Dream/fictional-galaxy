@@ -52,7 +52,6 @@ Function TimerSwitch {
 # Описываем свойства:
 # Главная форма
 $SecondMain.Text = 'ProgressBar'
-$SecondMain.DataBindings.DefaultDataSourceUpdateMode = 0 
 $SecondMain.ClientSize = $System_Drawing_Size 
 $SecondMain.DataBindings.DefaultDataSourceUpdateMode = 0 
 $System_Drawing_Size.Height = 120
@@ -60,7 +59,7 @@ $System_Drawing_Size.Width = 260
 $SecondMain.MaximumSize = $System_Drawing_Size 
 $SecondMain.MinimumSize = $System_Drawing_Size
 $SecondMain.Icon = New-Object System.Drawing.Icon("D:\The interesting\resource\dual.ico")
-$SecondMain.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedDialog
+$SecondMain.FormBorderStyle = "FixedDialog"
 
 # Прописываем индикатор прогресса
 $ProgressBar.Location = new-object System.Drawing.Size(10,10)

@@ -45,13 +45,13 @@ Function Confirm {
         $System_Drawing_Size.Width = 210 
         $ConfirmWin.MaximumSize = $System_Drawing_Size 
         $ConfirmWin.MinimumSize = $System_Drawing_Size
-        $ConfirmWin.Icon = New-Object System.Drawing.Icon("D:\The interesting\resource\light.ico")
+        $ConfirmWin.Icon = New-Object System.Drawing.Icon("D:\The interesting\resource\warning.ico")
 
         $ConfirmWinOKButton = New-Object System.Windows.Forms.Button
         $ConfirmWinOKButton.add_click({ $MainSendWindow.Close(); $ConfirmWin.Close() })
         $ConfirmWinOKButton.Text = "Закрыть"
         $ConfirmWinOKButton.AutoSize = 1
-        $ConfirmWinOKButton.Location        = New-Object System.Drawing.Point(50,50)
+        $ConfirmWinOKButton.Location        = New-Object System.Drawing.Point(60,45)
 
         $ConfirmLabel = New-Object System.Windows.Forms.Label
         IF ($Server -ne "localhost"){$ConfirmLabel.Text = "Сообщение не удалось отправить"}
@@ -110,7 +110,6 @@ Function Confirm {
 # Главная форма
 $MainSendWindow.StartPosition  = "CenterScreen"
 $MainSendWindow.Text           = "Отправка сообщения пользователям"
-$MainSendWindow.DataBindings.DefaultDataSourceUpdateMode = 0 
 $MainSendWindow.ClientSize = $System_Drawing_Size 
 $MainSendWindow.DataBindings.DefaultDataSourceUpdateMode = 0 
 $System_Drawing_Size.Height = 240
@@ -119,7 +118,7 @@ $MainSendWindow.MaximumSize = $System_Drawing_Size
 $MainSendWindow.MinimumSize = $System_Drawing_Size
 $MainSendWindow.AutoSize = 1
 $MainSendWindow.Icon = New-Object System.Drawing.Icon("D:\The interesting\resource\code.ico")
-$MainSendWindow.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedDialog
+$MainSendWindow.FormBorderStyle = "FixedDialog"
 # несколько плюшек и обещанных красивостей
 #$Win.ControlBox           = 0 # отключить кнопки свернуть, минимизацию и закрытие.
 # $Win.ShowIcon             = 0
