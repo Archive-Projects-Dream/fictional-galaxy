@@ -58,6 +58,7 @@ Function Confirm {
         $ConfirmLabel.AutoSize = 1
         $ConfirmLabel.Location  = New-Object System.Drawing.Point(10,10)
 
+        $ConfirmWin.ShowInTaskbar = $false
         $ConfirmWin.Controls.Add($ConfirmLabel)
         $ConfirmWin.Controls.Add($ConfirmWinOKButton)
         $ConfirmWin.ShowDialog() | Out-Null
