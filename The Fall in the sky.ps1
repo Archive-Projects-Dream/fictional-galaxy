@@ -119,7 +119,8 @@ $MainSendWindow.MinimumSize = $System_Drawing_Size
 $MainSendWindow.AutoSize = 1
 $MainSendWindow.Icon = New-Object System.Drawing.Icon("D:\The interesting\resource\code.ico")
 $MainSendWindow.FormBorderStyle = "FixedDialog"
-# несколько плюшек и обещанных красивостей
+
+# Несколько найденых красивостей
 #$Win.ControlBox           = 0 # отключить кнопки свернуть, минимизацию и закрытие.
 # $Win.ShowIcon             = 0
 # $Win.ShowInTaskbar        = 0
