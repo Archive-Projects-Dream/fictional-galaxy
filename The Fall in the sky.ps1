@@ -4,15 +4,13 @@ Add-Type -assembly System.Windows.Forms
 	# Все просто, массивы из списка серверов, списка пользоватей, и варианты подписи - чтобы использовать могла не только поддержка.
 	$Server        = @("*", "Локальная Сеть")
 	$User          = @("Сергей", "UserPC", "TeppaH")
-	$Message       = "Шаблон заголовка"
-	# По хорошему, надо бы сделать так, чтобы если умолчательное сообщение не менялось и шло нажатие на кнопку отправить, то выводилось бы предупреждение.
-	# Так же по аналогии с тем что есть, тут тоже можно повесить список со стандартными сообщениями
+    $Message       = "Шаблон заголовка"
+	$Sign          = "Сообщение по Умолчанию"
+	# По хорошему, надо бы сделать так, чтобы если сообщение по умолчанию не менялось и шло нажатие на кнопку отправить, то выводилось бы предупреждение.
+	# Так же по аналогии с тем что есть, тут тоже можно бы повесить список со стандартными сообщениями.
 
-	# Подписываемся
-	$Sign          = @("Сообщение по Умолчанию")
-
-	# Повелось, что все функции описываются до их использования.
-	# Функция отправки сообщения. Принимаем параметры, проверяем, если чекбокс включен (а он включен по умолчанию), устанавливаем параметры отправки только на консоль локалхоста, иначе проходим по списку серверов, внутри каждого сервера инициируем цикл по списку пользователей с предварительно отрезанными пробелами до и после текста(помните формат: "сервер1, сервер2, сервер3" для красивой читаемости текста), вызываем сам msg для отправки сообщения и после чего вызываем диалогов окно с подтверждением отправки и закрытием программы.
+	# Повелось так, что все функции описываются до их использования.
+	# Функция отправки сообщения. Принимаем параметры, проверяем, если чекбокс включен (а он включен по умолчанию), устанавливаем параметры отправки только на консоль Локального хостига, иначе проходим по списку серверов, внутри каждого сервера инициируем цикл по списку пользователей с предварительно отрезанными пробелами до и после текста(помните формат: "сервер1, сервер2, сервер3" для красивой читаемости текста), вызываем сам msg для отправки сообщения и после чего вызываем диалогов окно с подтверждением отправки и закрытием программы.
 Function SendMessage {
         param ($Server, $User, $Message, $Sign)
         # Write-Host $Server, $User, $Message, $Sign
@@ -48,16 +46,16 @@ Function Confirm {
         $ConfirmWin.Icon = New-Object System.Drawing.Icon("D:\The interesting\resource\warning.ico")
 
         $ConfirmWinOKButton = New-Object System.Windows.Forms.Button
-        $ConfirmWinOKButton.add_click({ $MainSendWindow.Close(); $ConfirmWin.Close() })
+        $ConfirmWinOKButton.Location = New-Object System.Drawing.Point(60,45)
         $ConfirmWinOKButton.Text = "Закрыть"
+        $ConfirmWinOKButton.add_click({$MainSendWindow.Close(); $ConfirmWin.Close()})
         $ConfirmWinOKButton.AutoSize = 1
-        $ConfirmWinOKButton.Location        = New-Object System.Drawing.Point(60,45)
-
+        
         $ConfirmLabel = New-Object System.Windows.Forms.Label
+        $ConfirmLabel.Location  = New-Object System.Drawing.Point(10,10)
         IF ($Server -ne "localhost"){$ConfirmLabel.Text = "Сообщение не удалось отправить"}
         Else {$ConfirmLabel.Text = "Сообщение было отправлено"}
         $ConfirmLabel.AutoSize = 1
-        $ConfirmLabel.Location  = New-Object System.Drawing.Point(10,10)
 
         $ConfirmWin.ShowInTaskbar = $false
         $ConfirmWin.Controls.Add($ConfirmLabel)
@@ -75,6 +73,7 @@ Function Confirm {
      # Вскплывающее окно с подсказками
      $ToolTip.BackColor = [System.Drawing.Color]::LightGoldenrodYellow
      $ToolTip.IsBalloon = $true
+     # В дополнение к подсказкам, если нужно будет настроить
      # $ToolTip.InitialDelay = 500
      # $ToolTip.ReshowDelay = 500
 
@@ -88,7 +87,7 @@ Function Confirm {
      $ServerTextBox             = New-Object System.Windows.Forms.ComboBox
      $UserTextBox               = New-Object System.Windows.Forms.ComboBox
      $MessageTextBox            = New-Object System.Windows.Forms.TextBox
-     $SignTextBox               = New-Object System.Windows.Forms.ComboBox
+     $SignTextBox               = New-Object System.Windows.Forms.TextBox
 
      # Подписи
      $ServerTextBoxLabel        = New-Object System.Windows.Forms.Label
@@ -120,22 +119,10 @@ $MainSendWindow.AutoSize = 1
 $MainSendWindow.Icon = New-Object System.Drawing.Icon("D:\The interesting\resource\code.ico")
 $MainSendWindow.FormBorderStyle = "FixedDialog"
 
-# Несколько найденых красивостей
-#$Win.ControlBox           = 0 # отключить кнопки свернуть, минимизацию и закрытие.
-# $Win.ShowIcon             = 0
-# $Win.ShowInTaskbar        = 0
-# $Win.HelpButton           = 1
-# авторазмер может отрабатывать если вся форма - к примеру одна кнопка "Сделать хорошо"
-# $Win.Autosize             = 1
-# $Win.AutoSizeMode         = "GrowAndShrink"
-# стиль обрамления и шрифт.
-# $Win.FormBorderStyle      = [System.Windows.Forms.FormBorderStyle]::Fixed3D
-# $Win.Font                 = New-Object System.Drawing.Font("Verdana",32)
-
 # Подписи к текстовым полям
 $ServerTextBoxLabel.Location   = New-Object System.Drawing.Point(10,12)
 $ServerTextBoxLabel.Text       = "Список сетей"
-$ServerTextBoxLabel.Autosize     = 1
+$ServerTextBoxLabel.Autosize   = 1
 
 $UserTextBoxLabel.Location     = New-Object System.Drawing.Point(10,42)
 $UserTextBoxLabel.Text         = "От кого сообщение"
@@ -145,12 +132,12 @@ $MessageTextBoxLabel.Location  = New-Object System.Drawing.Point(10,73)
 $MessageTextBoxLabel.Text      = "Заглавление"
 $MessageTextBoxLabel.Autosize  = 1
 # Плюшка в виде красивой подсказки, делается другим методом вызова, поэтому идет к каждому обьекту в блоке, чтобы не теряться.
-$ToolTip.SetToolTip($MessageTextBoxLabel, "Надо подписаться, а то в заголовке окна с сообщениями не видно")
+$ToolTip.SetToolTip($MessageTextBoxLabel, "Оглавление сообщения, как текст будет виден в начале предложения.шшшш000")
 
 $SignTextBoxLabel.Location     = New-Object System.Drawing.Point(10,103)
 $SignTextBoxLabel.Text         = "Сообщение"
 $SignTextBoxLabel.Autosize     = 1
-$ToolTip.SetToolTip($SignTextBoxLabel, "Надо подписаться, а то в заголовке окна с сообщениями не видно")
+$ToolTip.SetToolTip($SignTextBoxLabel, "Нужно что нибдь написать, не отправлять же пустой шаблон сообщения?")
 
 # Описание текстбокса
 # Позиция
@@ -160,8 +147,8 @@ $ServerTextBox.DataSource      = $Server
 # Размер
 $ServerTextBox.Width           = 300
 # Обработка события - при смене текста в поле, присваиваем переменной новое полученное значение.
-$ServerTextBox.add_TextChanged({ $Server = $ServerTextBox.Text })
-# индекс порядка перехода по Tab
+$ServerTextBox.add_TextChanged({$Server = $ServerTextBox.Text})
+# Индекс порядка перехода по Tab
 $ServerTextBox.TabIndex        = 1
 $ToolTip.SetToolTip($ServerTextBox, "Куда мы будем отправлять? (* по умолчанию)")
 
@@ -169,7 +156,7 @@ $UserTextBox.Location          = New-Object System.Drawing.Point(140,40)
 $UserTextBox.DataSource        = $User
 # Не забываем про массив
 $UserTextBox.Text              = $User[1]
-$UserTextBox.add_TextChanged({ $User = $UserTextBox.Text })
+$UserTextBox.add_TextChanged({$User = $UserTextBox.Text})
 $UserTextBox.Width             = 300
 $UserTextBox.TabIndex          = 2
 $ToolTip.SetToolTip($UserTextBox, "От чьего имени мы будем отправлять?")
@@ -179,19 +166,17 @@ $MessageTextBox.Location       = New-Object System.Drawing.Point(140,70)
 $MessageTextBox.Text           = $Message
 # По клику в поле ввода - автоматически выделяем весь текст, чтобы не надо было
 # нажимать удаление
-$MessageTextBox.add_click({ $MessageTextBox.SelectAll() })
-$MessageTextBox.add_TextChanged( { $Message = $MessageTextBox.Text })
+$MessageTextBox.add_click({$MessageTextBox.SelectAll()})
+$MessageTextBox.add_TextChanged({$Message = $MessageTextBox.Text})
 $MessageTextBox.Width          = 300
 $MessageTextBox.TabIndex       = 3
 $ToolTip.SetToolTip($MessageTextBox, "Оглавление сообщения")
 
 # Поле подписи - отправляемая переменная уже другая
 $SignTextBox.Location          = New-Object System.Drawing.Point(140,103)
-# Источник текста для подписи
-$SignTextBox.DataSource        = $Sign
-# А мы помним, что там массив?:)
-$SignTextBox.Text              = $Sign[1]
-$SignTextBox.add_TextChanged({ $SignX = $SignTextBox.Text })
+$SignTextBox.Text           = $Sign
+$SignTextBox.add_click({$SignTextBox.SelectAll()})
+$SignTextBox.add_TextChanged({$SignX = $SignTextBox.Text})
 $SignTextBox.Width             = 300
 $SignTextBox.TabIndex          = 4
 $ToolTip.SetToolTip($SignTextBox, "И что мы таки хотим сказать?")
@@ -216,28 +201,42 @@ $ToolTip.SetToolTip($TestRunCheckBox, "Сними меня, а то работа
 # Кнопочка выхода, по событию вызывает метод закрытия
 $CloseButton.Location          = New-Object System.Drawing.Point(315,150)
 $CloseButton.Text              = "Выйти из программы"
-$CloseButton.add_click({ $MainSendWindow.Close() })
+$CloseButton.add_click({$MainSendWindow.Close()})
 $CloseButton.Autosize          = 1
 $CloseButton.TabIndex          = 7
 $ToolTip.SetToolTip($CloseButton, "Пойдем ка отсюда")
 
-#Provide Custom Code for events specified in PrimalForms. 
+# Несколько найденых красивостей
+# $Win.ControlBox           = 0 # Отключить кнопки свернуть, минимизацию и закрытие.
+# $Win.ShowIcon             = 0
+# $Win.ShowInTaskbar        = 0
+# $Win.HelpButton           = 1
+# Авторазмер может отрабатывать если вся форма - к примеру одна кнопка "Сделать хорошо"
+# $Win.Autosize             = 1
+# $Win.AutoSizeMode         = "GrowAndShrink"
+# стиль обрамления и шрифт.
+# $Win.FormBorderStyle      = [System.Windows.Forms.FormBorderStyle]::Fixed3D
+# $Win.Font                 = New-Object System.Drawing.Font("Verdana",32)
+
+# Provide Custom Code for events specified in PrimalForms. 
 $menuItem2_OnClick= 
 { 
-#TODO: To view Windows version (About Windows) 
+# Позволяет взглянуть версию Windows (Об версии Windows) 
 Invoke-Item "$ENV:Windir\System32\Winver.exe"
 } 
 $menuItem3_OnClick= 
 { 
-#TODO: Open Perfomance Monitoring Tool     
+# Отрывает Системный монитор
 Invoke-Item "$ENV:windir\System32\perfmon.exe" 
 } 
 $menuItem4_OnClick= 
 { 
+# Позволяет открыть связанный файл
 . (Join-Path $PSScriptRoot 'Progress Bar.ps1')
 } 
 $menuItem5_OnClick= 
 { 
+# Позволяет открыть связанный файл
 . (Join-Path $PSScriptRoot 'About.ps1')
 } 
 
@@ -251,7 +250,7 @@ $menuItem4.add_Click($menuItem4_OnClick)
 $Menu.MenuItems.Add($menuItem5)
 $menuItem5.add_Click($menuItem5_OnClick)
 $menuItem1.Text= 'Файл'
-$menuItem2.Text= 'Версия Windows'
+$menuItem2.Text= 'Об версии Windows'
 $menuItem3.Text= 'Системный монитор'
 $menuItem4.Text= 'Индикатор Прогресса'
 $menuItem5.Text= 'Об Авторе'

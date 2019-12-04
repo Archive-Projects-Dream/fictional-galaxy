@@ -12,13 +12,13 @@ Function TimerSwitch {
         $LabelSwitch.Text = "Синхронизация: Активна!"
         $LabelSwitch.ForeColor = 'Green'
         $Timer.Enabled = $true
-        $timer.Start()
+        $Timer.Start()
     }
     else {
         $LabelSwitch.Text = "Синхронизация: Отключена!"
         $LabelSwitch.ForeColor = 'Red'
         $Timer.Enabled = $false 
-        $timer.Stop()
+        $Timer.Stop()
         $ProgressBar.Value = 0
     }
 }

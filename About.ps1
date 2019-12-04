@@ -33,8 +33,7 @@ $LabelAbout.Autosize = 1
 
 $Label1.Location = new-object System.Drawing.Size(10,25)
 $label1.DataBindings.DefaultDataSourceUpdateMode = 0 
-$label1.Font = New-Object System.Drawing.Font("Calibri", 12, 1, 3, 0) 
-$label1.Name = "label1" 
+$label1.Font = New-Object System.Drawing.Font("Calibri", 12, 1, 3, 0)
 $label1.Height = 23 
 $label1.Width = 183 
 $label1.TabIndex = 1
