@@ -13,14 +13,21 @@ Function TimerSwitch {
         $LabelSwitch.ForeColor = 'Green'
         $Timer.Enabled = $true
         $Timer.Start()
+        $TimerStop.Start()
     }
     else {
-        $LabelSwitch.Text = "Синхронизация: Отключена!"
-        $LabelSwitch.ForeColor = 'Red'
-        $Timer.Enabled = $false 
-        $Timer.Stop()
-        $ProgressBar.Value = 0
+        TargetStop
     }
+}
+# Функция остановки отслживания
+Function TargetStop {
+    $LabelSwitch.Text = "Синхронизация: Отключена!"
+    $LabelSwitch.ForeColor = 'Red'
+    $Timer.Enabled = $false 
+    $TimerStop.Enabled = $false
+    $Timer.Stop()
+    $TimerStop.Stop()
+    $ProgressBar.Value = 0
 }
 
 # Главное окно, по хорошему тоже стоило бы оформить в виде функции
@@ -44,6 +51,7 @@ Function TimerSwitch {
     $LabelSwitch                = New-Object System.Windows.Forms.Label
      # Таймер
     $Timer                      = New-Object System.Windows.Forms.Timer 
+    $TimerStop                  = New-Object System.Windows.Forms.Timer 
 
 # Добавляем верхнее меню в формы (Оставил тут на случай если захочу добавить верхнюю панель)
 # $Menu                       = New-Object System.Windows.Forms.MainMenu
@@ -78,6 +86,8 @@ $HScrollBar.Name = 'HScrollBar'
 # Прописываем таймер
 $Timer.Interval = 70
 $Timer.add_Tick({TimerCheck})
+$TimerStop.Interval = 5000
+$TimerStop.add_Tick({TimerStop})
 
 # Button
 $ButtonSwitch.Location = new-object System.Drawing.Size(120,10)

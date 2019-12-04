@@ -15,14 +15,17 @@ Add-Type -AssemblyName System.Windows.Forms
      # Инициализация контролеров форм
     $LabelAbout                = New-Object System.Windows.Forms.Label
     $label1                    = New-Object System.Windows.Forms.Label
+    $DateTimePicker = New-Object System.Windows.Forms.DateTimePicker
 
 # Описываем свойства:
 # Главная форма
 $SecondMain.Text = 'Об Авторе'
 $SecondMain.ClientSize = $System_Drawing_Size 
 $SecondMain.DataBindings.DefaultDataSourceUpdateMode = 0 
-$System_Drawing_Size.Height = 120
-$System_Drawing_Size.Width = 200
+$System_Drawing_Size.Height = 115
+$System_Drawing_Size.Width = 230
+$SecondMain.MaximumSize = $System_Drawing_Size 
+$SecondMain.MinimumSize = $System_Drawing_Size
 $SecondMain.Autosize = 1
 $SecondMain.Icon = New-Object System.Drawing.Icon("D:\The interesting\resource\about.ico")
 $SecondMain.FormBorderStyle = "FixedDialog"
@@ -39,8 +42,11 @@ $label1.Width = 183
 $label1.TabIndex = 1
 $label1.Text = "Сделано на PowerShell" 
 
+$DateTimePicker.Location  = New-Object System.Drawing.Point(10,50)
+
 # Добавляем контролы в форму и вызываем её запуск
 $SecondMain.Controls.Add($LabelAbout)
 $SecondMain.Controls.Add($label1)
+$SecondMain.Controls.add($DateTimePicker)
 
 $SecondMain.ShowDialog()| Out-Null
