@@ -87,7 +87,7 @@ $HScrollBar.Name = 'HScrollBar'
 $Timer.Interval = 70
 $Timer.add_Tick({TimerCheck})
 $TimerStop.Interval = 5000
-$TimerStop.add_Tick({TimerStop})
+$TimerStop.add_Tick({TargetStop})
 
 # Button
 $ButtonSwitch.Location = new-object System.Drawing.Size(120,10)
