@@ -1,33 +1,20 @@
 ﻿# Перечисление - цвет
-Enum ColorOfRobot
-{
+Enum ColorOfRobot {
     Blue
     Green
     Red
 }
 
-# Перечисление - материал
-Enum MaterialOfRobot
-{
-    Steel
-}
-
 # Класс
 Class Robot {
     #region Свойства
-    [string]$Name
     [int]$Id
-    
-    # Дата создания объекта (для каждого своя)
-    [DateTime]$Birthday = (Get-Date)
-    #region Скрытое свойство
-    hidden [int]$StepCount
+    [int]$Storage
+    [string]$Name
+    # Перечисления: цвет
+    hidden [ColorOfRobot]$Color
     #endregion
-    # Статическое свойство
-    # Дата создания класса (у всех экземпляров этого класса одинаковая)
-    static [DateTime]$Inception = (Get-Date)
-    #endregion
-    
+
     # Метод, вызывающий улыбку
     Smile() {
         Write-Host ':)'
@@ -36,19 +23,14 @@ Class Robot {
     # Метод - шаг
     Go([int]$Step)  { 
         Write-Host ('-'*$Step)
-        $this.StepCount += $Step 
+        $this.Storage += $Step 
     }
 
     # Метод - большой шаг
     Go([int]$Step, $StepSize) { 
         Write-Host (('-' + ' ' * $StepSize) *$Step)
-        $this.StepCount += $Step 
+        $this.Storage += $Step 
     }
-
-    # Перечисления: цвет и материал
-    [ColorOfRobot]$Color
-    # Перечисление - Read-only свойство
-    static [MaterialOfRobot]$Material
     
     #region Перегрузка конструктора
     # Вызывается при указании [Robot]::new()
@@ -67,6 +49,7 @@ Class Robot {
     #endregion
 }
 
+# Наследование: Класс Terminator от класса Robot
 Class Terminator : Robot {
     # Свойство - количество зарядов
     [int]$ShotCount = 1000
@@ -79,27 +62,11 @@ Class Terminator : Robot {
     }
 }
 
-$T800 = [Terminator]::new()
-
 $Clones = @()
-foreach ($Id in 1..5) {
+foreach ($Id in 1..10) {
     $Clones += [Robot]::new($Id)
-}      
-
-$Question = 'Кто сегодня желает поработать? - Шаг вперёд'
-if ($Question) {
-    $Clones.Go(1)
 }
-
-$Walle = New-Object Robot
-$Walle.Color = 'Blue'
-
-$Eva = New-Object Robot
-$Eva.Color = 'Red'
-
 $Clones[0].Go(3, 2)
 $Clones[1].Go(5)
-$Clones[2].Name = 'Walle'
-$Clones[2].Color = 'Red' 
-$Clones[3].Name = 'Eva'  
- # -EA (на самом деле алиас параметра –ErrorAction, просто чтобы поместиться в одну строку)
+# Отображение результата в интегрированную консоль
+$Clones

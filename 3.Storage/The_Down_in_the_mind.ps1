@@ -27,7 +27,6 @@ Class Robot {
     # Дата создания класса (у всех экземпляров этого класса одинаковая)
     static [DateTime]$Inception = (Get-Date)
     #endregion
-    
     # Метод, вызывающий улыбку
     Smile() {
         Write-Host ':)'
@@ -66,7 +65,6 @@ Class Robot {
     }
     #endregion
 }
-
 Class Terminator : Robot {
     # Свойство - количество зарядов
     [int]$ShotCount = 1000
@@ -78,14 +76,11 @@ Class Terminator : Robot {
         $this.ShotCount -= $Shots
     }
 }
-
 $T800 = [Terminator]::new()
-
 $Clones = @()
 foreach ($Id in 1..5) {
     $Clones += [Robot]::new($Id)
 }      
-
 $Question = 'Кто сегодня желает поработать? - Шаг вперёд'
 if ($Question) {
     $Clones.Go(1)
@@ -102,4 +97,5 @@ $Clones[1].Go(5)
 $Clones[2].Name = 'Walle'
 $Clones[2].Color = 'Red' 
 $Clones[3].Name = 'Eva'  
+$Clones
  # -EA (на самом деле алиас параметра –ErrorAction, просто чтобы поместиться в одну строку)
