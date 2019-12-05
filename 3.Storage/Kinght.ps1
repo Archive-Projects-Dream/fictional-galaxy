@@ -5,74 +5,69 @@ Enum ColorOfRobot
     Green
     Red
 }
+
 # Перечисление - материал
 Enum MaterialOfRobot
 {
     Steel
 }
+
 # Класс
-Class Robot
-{
-    # Свойства
+Class Robot {
+    #region Свойства
     [string]$Name
     [int]$Id
     
     # Дата создания объекта (для каждого своя)
     [DateTime]$Birthday = (Get-Date)
-    
-    # Скрытое свойство
+    #region Скрытое свойство
     hidden [int]$StepCount
-    
+    #endregion
     # Статическое свойство
     # Дата создания класса (у всех экземпляров этого класса одинаковая)
     static [DateTime]$Inception = (Get-Date)
+    #endregion
     
-    #region Метод, вызывающий улыбку
-    Smile()
-    {
+    # Метод, вызывающий улыбку
+    Smile() {
         Write-Host ':)'
     }
 
     # Метод - шаг
-    Go([int]$Step) 
-    { 
+    Go([int]$Step)  { 
         Write-Host ('-'*$Step)
         $this.StepCount += $Step 
     }
 
     # Метод - большой шаг
-    Go([int]$Step, $StepSize)
-    { 
+    Go([int]$Step, $StepSize) { 
         Write-Host (('-' + ' ' * $StepSize) *$Step)
         $this.StepCount += $Step 
     }
-    #endregion
-    
+
     # Перечисления: цвет и материал
     [ColorOfRobot]$Color
+    # Перечисление - Read-only свойство
     static [MaterialOfRobot]$Material
     
     #region Перегрузка конструктора
     # Вызывается при указании [Robot]::new()
-    Robot()
-    {}
+    Robot(){}
 
     # Вызывается при указании [Robot]::new(1)
-    Robot([string]$Id)
-    {
+    Robot([string]$Id) {
         $this.Id = $Id
     }
 
     # Вызывается при указании [Robot]::new(1, Verter)
-    Robot([string]$Id, [string]$Name)
-    {
+    Robot([string]$Id, [string]$Name) {
         $this.Id = $Id
         $this.Name = $Name
     }
     #endregion
 }
-Class Terminator : Robot
-{
+
+Class Terminator : Robot {
     # Свойство - количество зарядов
     [int]$ShotCount = 1000
     
@@ -83,15 +78,16 @@ Class Terminator : Robot
         $this.ShotCount -= $Shots
     }
 }
+
 $T800 = [Terminator]::new()
+
 $Clones = @()
-foreach ($Id in 1..5)
-{
+foreach ($Id in 1..5) {
     $Clones += [Robot]::new($Id)
 }      
+
 $Question = 'Кто сегодня желает поработать? - Шаг вперёд'
-if ($Question)
-{
+if ($Question) {
     $Clones.Go(1)
 }
 
