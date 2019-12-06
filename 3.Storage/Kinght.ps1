@@ -1,26 +1,9 @@
-﻿class Program 
-{
-
-}
-# Перечисление - цвет
+﻿# Перечисление - цвет
 Enum ColorOfRobot {
     Blue
     Green
     Red
 }
-
-#region [Main]
-#endregion
-#region [Events]
-#endregion
-#region [Class]
-#endregion
-#region [Nova]
-#endregion
-#region [Sun]
-#endregion
-#region [Fire]
-#endregion
 
 Class Kinght {
     #region [Nova]: Свойства
@@ -30,6 +13,22 @@ Class Kinght {
     # Перечисления: цвет
     hidden [ColorOfRobot]$Color
     #endregion
+    # Метод, вызывающий улыбку
+    Shrug() {
+        Write-Host '¯\_(ツ)_/¯'
+    }
+
+    # Метод - шаг
+    Go([int]$Step)  { 
+        Write-Host ('-'*$Step)
+        $this.Storage += $Step 
+    }
+
+    # Метод - большой шаг
+    Go([int]$Step, $StepSize) { 
+        Write-Host (('-' + ' ' * $StepSize) *$Step)
+        $this.Storage += $Step 
+    }
     #region [Class] Перегрузка конструктора
     # Вызывается при указании [Kinght]::new()
     Kinght(){}
@@ -48,25 +47,15 @@ Class Kinght {
 
 # Наследование: Класс Castle от класса Kinght
 Class Castle : Kinght {
+    #region [Nova]: Свойства Наследуемое
+    # [int]$Id
+    # [int]$Storage
+    # [string]$Name
+    # Перечисления: цвет
+    # hidden [ColorOfRobot]$Color
+    #endregion
     #region [Events] Свойство - количество зарядов
     [int]$ShotCount = 1000
-
-    # Метод, вызывающий улыбку
-    Shrug() {
-        Write-Host '¯\_(ツ)_/¯'
-    }
-
-    # Метод - шаг
-    Go([int]$Step)  { 
-        Write-Host ('-'*$Step)
-        $this.Storage += $Step 
-    }
-
-    # Метод - большой шаг
-    Go([int]$Step, $StepSize) { 
-        Write-Host (('-' + ' ' * $StepSize) *$Step)
-        $this.Storage += $Step 
-    }
     # Метод - выстрел
     Shot([int]$Shots)
     {
@@ -86,11 +75,19 @@ foreach ($Id in 1..10) {
     $Clones += [Kinght]::new($Id)
 }
 
-$Clones[0].Go(3, 2)
+# Присваиваем Случайные значения значения
+$Clones[0].Castle.Go(3, 2)
 $Clones[1].Go(5)
+
 # Отображение результата в интегрированную консоль
 $Clones
 
+$var = $Clones.count
+$var2 = "Всего в массиве: $var" 
+$var2
+
+#region
 # Сам не знаю зачем я это добавил, но берет из текстового документа случайную строку текста, и пишет её в консоль.
-$content = Get-Content C:\Users\user\Desktop\1.txt
-Get-Random -InputObject $content
+# $content = Get-Content C:\Users\user\Desktop\1.txt
+# Get-Random -InputObject $content
+#endregion

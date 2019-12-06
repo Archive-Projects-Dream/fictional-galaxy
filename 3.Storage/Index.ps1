@@ -6,3 +6,16 @@ $Verter.Go(5)
 $Verter.Name = 1
 
 $Verter
+
+#region [Main]
+#endregion
+#region [Events]
+#endregion
+#region [Class]
+#endregion
+#region [Nova]
+#endregion
+#region [Sun]
+#endregion
+#region [Fire]
+#endregion
