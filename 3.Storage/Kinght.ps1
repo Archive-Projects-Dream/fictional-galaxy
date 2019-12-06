@@ -8,25 +8,28 @@ Enum ColorOfRobot {
 Class Kinght {
     #region [Nova]: Свойства
     [int]$Id
-    [int]$Storage
-    [string]$Name
+    [string]$Storage
+    # [string]$Name
     # Перечисления: цвет
     hidden [ColorOfRobot]$Color
     #endregion
     # Метод, вызывающий улыбку
-    Shrug() {
-        Write-Host '¯\_(ツ)_/¯'
+    Go() {
+        $this.Storage = '¯\_(ツ)_/¯'
+    }
+    Go([string]$Step) {
+        $this.Storage = $Step
     }
 
     # Метод - шаг
     Go([int]$Step)  { 
-        Write-Host ('-'*$Step)
+        # Write-Host ('-'*$Step)
         $this.Storage += $Step 
     }
 
     # Метод - большой шаг
     Go([int]$Step, $StepSize) { 
-        Write-Host (('-' + ' ' * $StepSize) *$Step)
+        # Write-Host (('-' + ' ' * $StepSize) *$Step)
         $this.Storage += $Step 
     }
     #region [Class] Перегрузка конструктора
@@ -70,14 +73,35 @@ Class Castle : Kinght {
 #}
 
 # Создаем пустой список / Хеш-таблицу
-$Clones = @()
-foreach ($Id in 1..10) {
-    $Clones += [Kinght]::new($Id)
+[Array]$Clones = @()
+$MaxClones = 10
+foreach ($O in 1..$MaxClones) {
+    $Clones += [Kinght]::new($O)
+}
+
+Function Se {
+    $O++
+    $O
+    $Clones += [Kinght]::new($O)
 }
 
 # Присваиваем Случайные значения значения
-$Clones[0].Castle.Go(3, 2)
-$Clones[1].Go(5)
+$content = Get-Content C:\Users\user\Desktop\1.txt
+$MaxClones--
+$Max = 18
+foreach ($O in 0..$Max) {
+    if($O -le $MaxClones){
+        # $y = Get-Random  (0..10)
+        $content1 = Get-Random -InputObject $content
+        $Clones[$O].Go($content1)
+    }
+    else {
+        $Ox = 1 + $O
+        $Clones += [Kinght]::new($Ox)
+        $content1 = Get-Random -InputObject $content
+        $Clones[$O].Go($content1)
+    }
+}
 
 # Отображение результата в интегрированную консоль
 $Clones
@@ -86,8 +110,38 @@ $var = $Clones.count
 $var2 = "Всего в массиве: $var" 
 $var2
 
+#region Может быть и пригодиться (Наработки)
+#Class Load {
+#    Load($folder){
+#        $files = Get-ChildItem $folder 
+#        foreach ($file in $files) { 
+#            if ($file.length –gt 100MB) {
+#            }
+#        }
+#    }
+#} #endregion
+
 #region
-# Сам не знаю зачем я это добавил, но берет из текстового документа случайную строку текста, и пишет её в консоль.
-# $content = Get-Content C:\Users\user\Desktop\1.txt
-# Get-Random -InputObject $content
+#Class Load2 {
+#    Load2(){
+#        # Сам не знаю зачем я это добавил, но берет из текстового документа случайную строку текста, и пишет её в консоль.
+#        $content = Get-Content C:\Users\user\Desktop\1.txt
+#        Get-Random -InputObject $content
+#    }
+#} #endregion
+
+#region Метод замены
+#Class Save : Kinght {
+#    #region [Nova]: Свойства Наследуемое
+#    # [int]$Id
+#    # [int]$Storage
+#    #endregion
+#    Load() {
+#    foreach ($Id in 1..10){
+#        if($Id -eq ""){
+#            sd
+#        }
+#    }
+#}
+#}
 #endregion
