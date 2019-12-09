@@ -20,7 +20,6 @@ Class Kinght {
     Go([string]$Step) {
         $this.Storage = $Step
     }
-
     # Метод - шаг
     Go([int]$Step)  { 
         # Write-Host ('-'*$Step)
@@ -40,12 +39,6 @@ Class Kinght {
     Kinght([int]$Id) {
         $this.Id = $Id
     }
-
-    # Вызывается при указании [Kinght]::new(1, Verter)
-    Kinght([int]$Id, [int]$Name) {
-        $this.Id = $Id
-        $this.Name = $Name
-    }
 } #endregion
 
 # Наследование: Класс Castle от класса Kinght
@@ -61,6 +54,7 @@ Class Castle : Kinght {
     [int]$ShotCount = 1000
     # Метод - выстрел
     Shot([int]$Shots)
+    # [void] описание методов начинается с указания типа возвращаемого значения, в том случае если метод не возвращает ничего следует указать ключевое слово [void];
     {
         Write-Host ('='*$Shots + '>')
         $this.ShotCount -= $Shots
@@ -72,43 +66,85 @@ Class Castle : Kinght {
 #    # storage.add(new SomeObject());
 #}
 
-# Создаем пустой список / Хеш-таблицу
-[Array]$Clones = @()
-$MaxClones = 10
-foreach ($O in 1..$MaxClones) {
-    $Clones += [Kinght]::new($O)
-}
-
-Function Se {
-    $O++
-    $O
-    $Clones += [Kinght]::new($O)
-}
-
-# Присваиваем Случайные значения значения
-$content = Get-Content C:\Users\user\Desktop\1.txt
-$MaxClones--
-$Max = 18
-foreach ($O in 0..$Max) {
-    if($O -le $MaxClones){
-        # $y = Get-Random  (0..10)
-        $content1 = Get-Random -InputObject $content
-        $Clones[$O].Go($content1)
-    }
-    else {
-        $Ox = 1 + $O
-        $Clones += [Kinght]::new($Ox)
-        $content1 = Get-Random -InputObject $content
-        $Clones[$O].Go($content1)
-    }
-}
-
 # Отображение результата в интегрированную консоль
 $Clones
-
 $var = $Clones.count
 $var2 = "Всего в массиве: $var" 
 $var2
+@'
+Class MyStorage2 {
+    private:
+        shape **objects;
+        int size;
+    public:
+    # Конструктор
+        MyStorage(int size) {
+            this->size = size;
+            objects = new shape*[size];
+        }
+    # Метод?
+        void SetObject(int index, shape *object) {
+            objects[index] = object;
+        }
+    # Перегруженный Метод???
+        shape GetObject(int index) {
+            return *objects[index];
+        }
+}
+'@
+Class MyStorage {
+    MyStorage([int]$size) {
+        $this.size = $size;
+        Write-Host ('=' + $size + '=')
+        $objects = new shape*$size  #
+    }
+    SetObject([int]$index, shape *object) { #
+        $objects[index] = $object;
+    }
+    shape"&" GetObject(int index) { #
+        return *objects[index]; #
+    }
+}
+
+#Main-function
+function main {
+    # Создаем пустой список / Хеш-таблицу
+    [Array]$Clones = @()
+    $MaxClones = 10
+    foreach ($O in 1..$MaxClones) {
+        $Clones += [Kinght]::new($O)
+    }
+    MyStorage storage(10);
+
+    # Присваиваем Случайные значения значения
+    $content = Get-Content C:\Users\user\Desktop\1.txt
+    $MaxClones--
+    $Max = 18
+    foreach ($O in 0..$Max) {
+        if($O -le $MaxClones){
+            # $y = Get-Random  (0..10)
+            $content1 = Get-Random -InputObject $content
+            $Clones[$O].Go($content1)
+        }
+        else {
+            $Ox = 1 + $O
+            $Clones += [Kinght]::new($Ox)
+            $content1 = Get-Random -InputObject $content
+            $Clones[$O].Go($content1)
+        }
+    }
+
+    #starting helper function
+    helper-func
+}
+
+#Helpers
+function helper-func {
+    Write-host "foo"
+}
+
+#Entry point
+main
 
 #region Может быть и пригодиться (Наработки)
 #Class Load {
