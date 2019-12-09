@@ -1,25 +1,25 @@
-﻿Class Step2 {
+﻿Class KnightStorage {
     [int]$Id = 0
     [string]$Name = ''
     [string]$Storage = ''
 
-    Step2([int]$Id, [string]$Name, [string]$Storage) {
+    KnightStorage([int]$Id, [string]$Name, [string]$Storage) {
         $this.Name = $Name
         $this.Id = $Id
         $this.Storage = $Storage
     }
 }
 
-Class Guide {
+Class Knight {
     [int]$Quantity = 0
     [System.Collections.ArrayList]$Array = @()
 
     [int]AddStep([string]$Name, [string]$Storage) {
         $newStepId = $this.GetNewStepNumber()
-        $newStep = [Step2]::new($newStepId, $Name, $Storage)
+        $newStep = [KnightStorage]::new($newStepId, $Name, $Storage)    #region [Sun] #endregion
 
         # Добавляем к текушему массиву: Id, Имя, и Груз
-        $this.Array.Add($newStep)
+        $this.Array.Add($newStep)   #region [Fire] #endregion
 
         return $newStepId
     }
@@ -32,10 +32,11 @@ Class Guide {
         return $this.Quantity += 1
     }
 }
-
-$Guide = [Guide]::new()
-
-$Guide.AddStep('Шаг Первый','Храним что то тут')
-$Guide.AddStep('Step Two','ScriptTwo.ps1')
-
-$Guide.Array
+# Создаем объект
+$Knight = [Knight]::new()
+# Определяем через метод, что у нас будет в ячейках объекта
+$Knight.AddStep('Позолеченный сундук','Горсть золотых монет')
+$Knight.AddStep('Step Two','ScriptTwo.ps1')
+# Смотрим что ~именно~ в массиве
+$Knight.Array
+# $Knight.Array[1]
