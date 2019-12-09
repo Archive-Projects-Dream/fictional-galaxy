@@ -66,46 +66,6 @@ Class Castle : Kinght {
 #    # storage.add(new SomeObject());
 #}
 
-# Отображение результата в интегрированную консоль
-$Clones
-$var = $Clones.count
-$var2 = "Всего в массиве: $var" 
-$var2
-@'
-Class MyStorage2 {
-    private:
-        shape **objects;
-        int size;
-    public:
-    # Конструктор
-        MyStorage(int size) {
-            this->size = size;
-            objects = new shape*[size];
-        }
-    # Метод?
-        void SetObject(int index, shape *object) {
-            objects[index] = object;
-        }
-    # Перегруженный Метод???
-        shape GetObject(int index) {
-            return *objects[index];
-        }
-}
-'@
-Class MyStorage {
-    MyStorage([int]$size) {
-        $this.size = $size;
-        Write-Host ('=' + $size + '=')
-        $objects = new shape*$size  #
-    }
-    SetObject([int]$index, shape *object) { #
-        $objects[index] = $object;
-    }
-    shape"&" GetObject(int index) { #
-        return *objects[index]; #
-    }
-}
-
 #Main-function
 function main {
     # Создаем пустой список / Хеш-таблицу
@@ -114,7 +74,6 @@ function main {
     foreach ($O in 1..$MaxClones) {
         $Clones += [Kinght]::new($O)
     }
-    MyStorage storage(10);
 
     # Присваиваем Случайные значения значения
     $content = Get-Content C:\Users\user\Desktop\1.txt
@@ -133,14 +92,11 @@ function main {
             $Clones[$O].Go($content1)
         }
     }
-
-    #starting helper function
-    helper-func
-}
-
-#Helpers
-function helper-func {
-    Write-host "foo"
+    # Отображение результата в интегрированную консоль
+    $Clones
+    $var = $Clones.count
+    $var2 = "Всего в массиве: $var" 
+    $var2
 }
 
 #Entry point
