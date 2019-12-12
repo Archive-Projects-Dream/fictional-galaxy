@@ -67,7 +67,7 @@ Class Castle : Kinght {
 #}
 
 #Main-function
-function main {
+function King {
     # Создаем пустой список / Хеш-таблицу
     [Array]$Clones = @()
     $MaxClones = 10
@@ -89,7 +89,8 @@ function main {
             $Ox = 1 + $O
             $Clones += [Kinght]::new($Ox)
             $content1 = Get-Random -InputObject $content
-            $Clones[$O].Go($content1)
+            $Clones[$O].Storage = $content1
+            $this.Storage = $Step
         }
     }
     # Отображение результата в интегрированную консоль
@@ -100,7 +101,7 @@ function main {
 }
 
 #Entry point
-main
+King
 
 #region Может быть и пригодиться (Наработки)
 #Class Load {
